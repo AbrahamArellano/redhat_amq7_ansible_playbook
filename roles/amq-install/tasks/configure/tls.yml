@@ -1,0 +1,12 @@
+---
+- name: configure - tls - adding new TLS acceptor
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/core:acceptors
+    input_type: xml
+    add_children: "{{ lookup('template', 'messaging-ssl-connector.xml.j2') }}"
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+  when: amq_broker_tls_acceptor

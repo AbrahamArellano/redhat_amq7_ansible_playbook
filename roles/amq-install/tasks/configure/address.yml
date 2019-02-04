@@ -1,0 +1,41 @@
+---
+
+- name: configure - address-setting - remove default setting for all addresses.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/core:address-settings
+    state: absent
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+      
+- name: configure - address-setting - remove default addresses.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/core:addresses
+    state: absent
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+
+- name: configure - address-setting - add additional addresses settings.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core
+    input_type: xml
+    add_children: "{{ lookup('template', 'messaging-address-setting.xml.j2') }}"
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+
+- name: configure - address-setting - add additional addresses.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core
+    input_type: xml
+    add_children: "{{ lookup('template', 'messaging-addresses.xml.j2') }}"
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes

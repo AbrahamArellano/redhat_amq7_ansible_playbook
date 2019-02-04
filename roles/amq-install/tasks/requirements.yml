@@ -1,0 +1,10 @@
+---
+
+#  - name: install - install packages
+#    yum:
+#      name: "{{ item }}"
+#      state: latest
+#    with_items:
+#      - libaio
+#    become_user: root
+                    

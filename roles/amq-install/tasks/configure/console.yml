@@ -1,0 +1,10 @@
+---
+- name: configure - console - configuration of console bootstrap
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/bootstrap.xml"
+    xpath: "/am:broker/am:web[@path='web']"
+    attribute: bind
+    value: "http://0.0.0.0:{{ amq_console_port }}"
+    namespaces:
+      am: http://activemq.org/schema
+    pretty_print: yes

@@ -1,6 +1,3 @@
-# redhat_amq7_ansible_playbook
-Ansible playbooks to deploy AMQ 7 
-
 - Run installation:
 
 sudo ansible-playbook -vvv --vault-id @prompt -i hosts.yml amq-install.yaml

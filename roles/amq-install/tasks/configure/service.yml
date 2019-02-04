@@ -1,0 +1,22 @@
+---
+#- name: configure - service - install service for broker
+#  template:
+#    src: jboss-amq.service.j2
+#    dest: /usr/lib/systemd/system/jboss-amq.service
+#    owner: root
+#    group: root
+#    mode: 0644
+#  notify: enable and start broker service
+#  become_user: root
+
+- block:
+  - name: Start AMQ service
+    shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service start"
+    environment:
+      BASH_ENV: "~/.bash_profile"
+    args:
+      executable: "/bin/bash"
+      warn: yes
+    changed_when: true
+    async: 60
+    poll: 0

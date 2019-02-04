@@ -1,0 +1,21 @@
+- name: configure - journal - additional journal settings.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/journal-compact-min-files
+    value: "{{ journal_compact_min_files|string }}"
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+  when: journal_compact_on
+  
+- name: configure - journal - additional journal settings.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/journal-compact-percentage
+    value: "{{ journal_compact_percentage|string }}"
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+  when: journal_compact_on

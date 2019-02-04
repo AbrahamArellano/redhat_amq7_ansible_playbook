@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  authors:  Abraham Arellano Tavara (aarellan@redhat.com)
+  description: AMQ Uninstallation Role
+  company: Red Hat
+  license: TBD
+  min_ansible_version: 2.2.1.0
+  platforms:
+  - name: EL
+    versions:
+    - all
+  galaxy_tags:
+    - amq
+dependencies:
