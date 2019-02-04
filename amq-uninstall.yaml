@@ -1,0 +1,15 @@
+---
+- name: Uninstall Playbook of a AMQ Standalone Environment
+  
+  # uninstall
+  hosts: master:slave
+  connection: local
+
+  serial: 1  
+  remote_user: amq
+  gather_facts: true
+  become: yes
+  become_user: amq
+  become_method: su
+  roles:
+    - { role: amq-uninstall }

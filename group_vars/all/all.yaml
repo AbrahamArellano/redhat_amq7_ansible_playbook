@@ -1,0 +1,99 @@
+---
+# AMQ Instalation Source
+
+binary:
+  folder: '/tmp/'
+
+# AMQ Version and Patch
+amq:
+  version: '7.2'
+  patch: '2'
+
+# Patch AMQ Version and Patch
+amq_patch:
+  version: '7.2'
+  patch: '2'
+
+# AMQ shared storage
+amq_broker_data_dir: /var/amq/data
+
+# AMQ logs 
+amq_broker_log_dir: /var/amq/log
+
+# OS User to install/execute AMQ
+user:
+  name: 'amq'
+  group: 'amq'
+  shell: '/bin/bash'
+  homedir: 'True'
+
+# OS Global Variables
+
+# AMQ Home
+amq_home: '/var/amq'
+amq_core_dir: '{{ amq_home }}/amq_core'
+amq_broker_dir: '{{ amq_home }}/instance'
+
+
+#####
+
+# Fundamentals
+# usually this is set at the playbook level
+amq_broker_name: broker
+
+# Primary admin user and role with which the broker is created
+amq_broker_admin:
+  name: fappricing
+  password: "{{ vault_amq_broker_admin.password }}"
+  role: admins
+
+# Messaging users
+amq_broker_users:
+  name: jboss
+  password: "{{ vault_amq_broker_users.password }}"
+  role: users
+
+
+##### AMQ configuration
+
+# Messaging roles
+# each item of .permissions can be one of:
+#   - createNonDurableQueue
+#   - deleteNonDurableQueue
+#   - createDurableQueue
+#   - deleteDurableQueue
+#   - createAddress
+#   - deleteAddress
+#   - consume
+#   - browse
+#   - send
+#   - manage
+amq_broker_roles:
+  - name: users
+    permissions:
+      - browse
+      - consume
+      - send
+
+# Clustering
+amq_broker_clustered: True
+amq_broker_cluster_user: amq
+amq_broker_cluster_password: "amq"
+amq_broker_cluster_maxhops: 0
+amq_broker_cluster_load_balancing_policy: ON_DEMAND
+amq_broker_cluster_discovery: False
+amq_broker_slave: False
+amq_broker_replicated: False
+
+## Shared Storage
+amq_broker_shared_storage: True
+
+## Broker Memory Limit
+global_max_size_on: True
+global_max_size: 2GB
+
+# Journal compact
+journal_compact_on: True
+journal_compact_min_files: 10
+journal_compact_percentage: 30
+

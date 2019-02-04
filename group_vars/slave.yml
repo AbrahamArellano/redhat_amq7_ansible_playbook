@@ -1,0 +1,17 @@
+---
+amq_broker_name: broker-slave    
+amq_broker_slave: True
+amq_console_port: 8261
+
+# Port assignments
+amq_broker_ports:
+  artemis:
+    port: 62616
+  amqp:
+    port: 5772
+  stomp:
+    port: 62613
+  hornetq:
+    port: 5545
+  mqtt:
+    port: 1933

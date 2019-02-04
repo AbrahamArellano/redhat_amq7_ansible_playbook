@@ -1,0 +1,16 @@
+---
+amq_broker_name: broker-master
+amq_console_port: 8161
+
+# Port assignments
+amq_broker_ports:
+  artemis:
+    port: 61616
+  amqp:
+    port: 5672
+  stomp:
+    port: 61613
+  hornetq:
+    port: 5445
+  mqtt:
+    port: 1833
