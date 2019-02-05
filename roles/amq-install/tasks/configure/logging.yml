@@ -1,0 +1,7 @@
+---
+- name: logging - changing location of logs
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/logging.properties"
+    regexp: '^handler.FILE.fileName'
+    line: "handler.FILE.fileName={{ amq_broker_log_dir }}/artemis_${artemis.instance}.log"
+    backrefs: yes

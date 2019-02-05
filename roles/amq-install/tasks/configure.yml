@@ -14,6 +14,8 @@
 
 - include_tasks: configure/console.yml
 
+- include_tasks: configure/logging.yml
+
 #- include_tasks: configure/users-roles.yml
 
 - include_tasks: configure/address.yml
