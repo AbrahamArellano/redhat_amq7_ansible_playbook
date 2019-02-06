@@ -1,0 +1,9 @@
+      <role-access>
+         <match domain="org.apache.activemq.artemis">
+            <access method="list*" roles="{{ amq_broker_admin_view_roles_xml }}"/>
+            <access method="get*" roles="{{ amq_broker_admin_view_roles_xml }}"/>
+            <access method="is*" roles="{{ amq_broker_admin_view_roles_xml}}"/>
+            <access method="set*" roles="{{ amq_broker_admin_roles_standard }}"/>
+            <access method="*" roles="{{ amq_broker_admin_roles_standard }}"/>
+         </match>
+      </role-access>

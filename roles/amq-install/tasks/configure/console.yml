@@ -8,3 +8,90 @@
     namespaces:
       am: http://activemq.org/schema
     pretty_print: yes
+    
+    
+## Roles preparation
+
+# Roles: admin + view    
+- name: configure - console - prepare list of roles for admin and view
+  set_fact:
+    amq_broker_admin_view_roles: >
+      {{ amq_broker_admin_view_roles | default( [] ) + [
+        item.name
+      ] }}
+  with_items: "{{ amq_broker_roles_permissions }}"    
+    
+# Workaround to be able to set a comma separated string in the XML template
+- name: configure - console - prepare list of roles for admin and view
+  set_fact:
+    amq_broker_admin_view_roles_xml: "'{{ amq_broker_admin_view_roles | join(';') }}'"
+    
+# Create list admin + view comma separated
+- name: configure - console - prepare list of roles for admin and view
+  set_fact:
+    amq_broker_admin_view_roles_standard: "'{{ amq_broker_admin_view_roles | join(',') }}'"
+    
+# Roles: only admins
+- name: configure - console - prepare list of roles for admin
+  set_fact:
+    amq_broker_admin_roles: >
+      {{ amq_broker_admin_roles | default( [] ) + [
+        item.name
+      ] }}
+  with_items: "{{ amq_broker_roles_permissions }}"  
+  when: item.admin
+
+# Create list of admins comma separated
+- name: configure - console - prepare list of roles for admin
+  set_fact:
+    amq_broker_admin_roles_standard: "'{{ amq_broker_admin_roles | join(',') }}'"
+  
+# Checking admin + view list
+#- name: Debug roles list
+#  debug: 
+#    msg: "{{item}}"
+#  with_items:
+#    - "{{ amq_broker_admin_view_roles }}"  
+
+## End Roles preparation
+    
+# 1.- Adding all available roles to the profile
+- name: configure - console - access update artemis.profile
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/artemis.profile"
+    regexp: '^JAVA_ARGS'
+    line: "{{ lookup('template', 'messaging-artemis-profile.j2') }}"
+    backrefs: yes
+
+# 2.- Adding new configuration to management.xml
+# Remove old configuration - required to not set the complete XML child again    
+- name: configure - console - delete existing management configuration
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/management.xml"
+    xpath: /act:management-context/act:authorisation/act:role-access
+    state: absent
+    namespaces: 
+      act: http://activemq.org/schema
+    pretty_print: yes
+  when: amq_custom_console_access
+  
+# Adding new configuration using templates
+- name: configure - console - adjust access per role in management configuration
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/management.xml"
+    xpath: /act:management-context/act:authorisation
+    input_type: xml
+    add_children: "{{ lookup('template', 'messaging-management.xml.j2') }}"
+    namespaces: 
+      act: http://activemq.org/schema
+    pretty_print: yes
+  when: amq_custom_console_access
+  
+# Replace the previous dummy string in the file...
+- name: configure - console - ansible replace dummy string
+  replace:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/management.xml"
+    regexp: ';'
+    replace: ","
+  
+  

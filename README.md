@@ -1,11 +1,10 @@
 - Run installation:
 
-sudo ansible-playbook -vvv --vault-id @prompt -i hosts.yml amq-install.yaml
+sudo ansible-playbook -vvv --vault-id @prompt -i ../redhat_amq7/inventories/ amq-install.yaml
 
 - Run uninstall:
 
-sudo ansible-playbook --vault-id @prompt -i hosts.yml amq-uninstall.yaml
-
+sudo ansible-playbook -vvv --vault-id @prompt -i ../redhat_amq7/inventories/ amq-uninstall.yaml
 
 - Create queue:
 

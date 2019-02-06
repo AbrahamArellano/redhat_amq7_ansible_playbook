@@ -22,4 +22,4 @@
     pretty_print: yes
   changed_when: False
   with_items:
-    - "{{ amq_broker_roles }}"
+    - "{{ amq_broker_roles_permissions }}"

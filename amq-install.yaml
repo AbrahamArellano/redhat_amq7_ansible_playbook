@@ -6,10 +6,10 @@
   connection: local
   
   serial: 1
-  remote_user: amq
+  remote_user: "{{ vault_os_amq.remote_user }}"
   gather_facts: true
   become: yes
-  become_user: amq
+  become_user: "{{ vault_os_amq.become_user }}"
   become_method: su
   
   # Set capabilities to install
@@ -17,8 +17,7 @@
     role_install_broker: true
     role_install_interconnect: false
   
-  roles:
-    # Two Fuse Standalone with a Network of Brokers
+  roles: 
     - {
         role: amq-install,
         amq_name: 'amq01',
@@ -26,23 +25,3 @@
         nob: 'false',
         amq_master_slave: 'true'
       }
-    #- {
-    #    role: fuse-install,
-    #    amq_name: 'amq02',
-    #    port_offset: '100',
-    #    nob: 'false',
-    #    amq_master_slave: 'false'
-    #  }
-    #- {
-    #    role: fuse-install,
-    #    amq_name: 'amq03',
-    #    port_offset: '200',
-    #    nob: 'false',
-    #    amq_type: 'noamq'
-    #  }
-    # Two Fuse Standalone without a Network of Brokers
-    # - { role: fuse-standalone, amq_name: 'amq01',  port_offset: '0', nob: 'false' }
-    # - { role: fuse-standalone, amq_name: 'amq02',  port_offset: '100', nob: 'false' }
-    # One Fuse Standalone with Full profiles and One Fuse Standalone without A-MQ profile
-    # - { role: fuse-standalone, amq_name: 'amq01',  port_offset: '0', nob: 'true' }
-    # - { role: fuse-standalone, amq_name: 'amq02',  port_offset: '100', amq_type: 'noamq' }
