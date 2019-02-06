@@ -6,10 +6,10 @@
   connection: local
 
   serial: 1  
-  remote_user: amq
+  remote_user: "{{ vault_os_amq.remote_user }}"
   gather_facts: true
   become: yes
-  become_user: amq
+  become_user: "{{ vault_os_amq.become_user }}"
   become_method: su
   roles:
     - { role: amq-uninstall }
