@@ -6,28 +6,18 @@ amq_broker_queues: queue.in,queue.out
 # Nio option
 amq_broker_nio: True
 
-# TLS acceptor
-amq_broker_tls_acceptor: True
-amq_broker_tls_acceptor_keystore: /var/amq/certs/broker.keystore
-amq_broker_tls_acceptor_password:
-amq_broker_tls_acceptor_keystore_truststore: /var/amq/certs/client.truststore
-amq_broker_tls_acceptor_truststore_password:  
+# TLS
+amq_broker_tls: True
+amq_broker_tls_keystore: "{{ amq_home }}/certs/broker.keystore"
+amq_broker_tls_keystore_password: "{{ vault_amq_broker_tls_keystore_password }}"
+amq_broker_tls_keystore_dest: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.keystore"
 
 
-# TLS for WebUI
-amq_broker_tls: False
-amq_broker_tls_keystore: 
-amq_broker_tls_keystore_password: 
-amq_broker_tls_keystore_dest: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/identity.ks"
-
-# Patch AMQ
-amq_broker_patch: False
-
-# Mutual authentication for WebUI (requires TLS)
+# Mutual authentication (requires TLS)
 amq_broker_tls_mutual_authentication: False
-amq_broker_tls_truststore: 
-amq_broker_tls_truststore_password: 
-amq_broker_tls_truststore_dest: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/trust.ks"
+amq_broker_tls_truststore: "{{ amq_home }}/certs/broker.truststore"
+amq_broker_tls_truststore_password: "{{ vault_amq_broker_tls_truststore_password }}"
+amq_broker_tls_truststore_dest: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.truststore"
 
 # Protocol disablement
 amq_broker_disable_amqp_protocol: False
@@ -35,5 +25,7 @@ amq_broker_disable_hornetq_protocol: False
 amq_broker_disable_mqtt_protocol: False
 amq_broker_disable_stomp_protocol: False
 
+# Patch AMQ
+amq_broker_patch: False
 
 

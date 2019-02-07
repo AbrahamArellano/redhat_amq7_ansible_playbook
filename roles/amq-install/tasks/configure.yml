@@ -2,7 +2,7 @@
 - include_tasks: configure/create-broker.yml
 
 - include_tasks: configure/tls.yml
-  when: amq_broker_tls_acceptor
+  when: amq_broker_tls
 
 - include_tasks: configure/shared_storage.yml
   when: amq_broker_shared_storage

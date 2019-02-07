@@ -1,18 +1,30 @@
 ---
-- name: configure - tls - copy keystore
-  copy:
-    src: "{{ amq_broker_tls_keystore }}"
-    dest: "{{ amq_broker_tls_keystore_dest }}"
-    mode: 0644
-  when: amq_broker_tls_keystore != ""
+#- name: configure - tls - copy keystore
+#  copy:
+#    src: "{{ amq_broker_tls_keystore }}"
+#    dest: "{{ amq_broker_tls_keystore_dest }}"
+#    mode: 0644
+#  when: amq_broker_tls_keystore != ""
 
-- name: configure - tls - copy truststore
-  copy:
-    src: "{{ amq_broker_tls_truststore }}"
-    dest: "{{ amq_broker_tls_truststore_dest }}"
-    mode: 0644
-  when: amq_broker_tls_truststore != ""
+#- name: configure - tls - copy truststore
+#  copy:
+#    src: "{{ amq_broker_tls_truststore }}"
+#    dest: "{{ amq_broker_tls_truststore_dest }}"
+#    mode: 0644
+#  when: amq_broker_tls_truststore != ""
 
+- name: configure - tls - remove existing TLS acceptor
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/core:acceptors/core:acceptor[@name='ssl']
+    state: absent
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+  when: amq_broker_tls
+
+# Add new SSL acceptor
 - name: configure - tls - adding new TLS acceptor
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
