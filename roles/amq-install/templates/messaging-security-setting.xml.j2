@@ -1,5 +1,13 @@
-    <security-setting match="#">
-    {% for permission in item.permissions %}
-    <permission type="{{ permission }}" roles="{{ item.name }}"/>
-    {% endfor %}
-    </security-setting>
+      <security-setting match="#">
+        <permission type="createNonDurableQueue" roles="admins"/>
+        <permission type="deleteNonDurableQueue" roles="admins"/>
+        <permission type="createDurableQueue" roles="admins"/>
+        <permission type="deleteDurableQueue" roles="admins"/>
+        <permission type="createAddress" roles="admins"/>
+        <permission type="deleteAddress" roles="admins"/>
+        <permission type="consume" roles="admins"/>
+        <permission type="browse" roles="{{ security_settings_permissions_browse }}"/>
+        <permission type="send" roles="admins"/>
+        <!-- we need this otherwise ./artemis data imp wouldn't work -->
+        <permission type="manage" roles="admins"/>
+      </security-setting>

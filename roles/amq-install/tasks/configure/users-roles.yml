@@ -10,16 +10,60 @@
   with_items:
     - "{{ amq_broker_users }}"
 
+
+## Iterate over all roles gathering each permission
+
+# createNonDurableQueue
+# deleteNonDurableQueue
+# createDurableQueue
+# deleteDurableQueue
+# createAddress
+# deleteAddress
+# consume
+
+# browse
+- name: configure - users-roles - generate array of roles that can browse
+  set_fact:
+    security_settings_permissions_browse_array: >
+      {{ security_settings_permissions_browse_array | default( [] ) + [
+        item.name
+      ] }}
+  with_items:
+    - "{{ amq_broker_roles }}"
+  when:
+    - '"browse" in item.permissions'
+
+# to string
+- name: configure - users-roles - generate string of roles that can browse
+  set_fact:
+    security_settings_permissions_browse: "{{ security_settings_permissions_browse_array | join(';;') }}"
+
+
+# send
+# manage
+
+
+
+# Set template
 - name: configure - users-roles - add messaging roles permissions
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
     xpath: /conf:configuration/core:core/core:security-settings
     input_type: xml
-    add_children: "{{ lookup('template', 'messaging-security-setting.xml.j2') }}"
+    set_children: "{{ lookup('template', 'messaging-security-setting.xml.j2') }}"
     namespaces:
       conf: urn:activemq
       core: urn:activemq:core
     pretty_print: yes
   changed_when: False
   with_items:
-    - "{{ amq_broker_roles_permissions }}"
+    - "{{ amq_broker_roles }}"
+  when:
+    - not item.admin
+    
+# Replace the previous dummy string in the file...
+- name: configure - users-roles - ansible replace dummy string
+  replace:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    regexp: ';;'
+    replace: ","

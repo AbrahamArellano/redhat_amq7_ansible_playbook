@@ -19,17 +19,17 @@
       {{ amq_broker_admin_view_roles | default( [] ) + [
         item.name
       ] }}
-  with_items: "{{ amq_broker_roles_permissions }}"    
+  with_items: "{{ amq_broker_roles }}"    
     
 # Workaround to be able to set a comma separated string in the XML template
 - name: configure - console - prepare list of roles for admin and view
   set_fact:
-    amq_broker_admin_view_roles_xml: "'{{ amq_broker_admin_view_roles | join(';') }}'"
+    amq_broker_admin_view_roles_xml: "{{ amq_broker_admin_view_roles | join(';') }}"
     
 # Create list admin + view comma separated
 - name: configure - console - prepare list of roles for admin and view
   set_fact:
-    amq_broker_admin_view_roles_standard: "'{{ amq_broker_admin_view_roles | join(',') }}'"
+    amq_broker_admin_view_roles_standard: "{{ amq_broker_admin_view_roles | join(',') }}"
     
 # Roles: only admins
 - name: configure - console - prepare list of roles for admin
@@ -38,13 +38,13 @@
       {{ amq_broker_admin_roles | default( [] ) + [
         item.name
       ] }}
-  with_items: "{{ amq_broker_roles_permissions }}"  
+  with_items: "{{ amq_broker_roles }}"  
   when: item.admin
 
 # Create list of admins comma separated
 - name: configure - console - prepare list of roles for admin
   set_fact:
-    amq_broker_admin_roles_standard: "'{{ amq_broker_admin_roles | join(',') }}'"
+    amq_broker_admin_roles_standard: "{{ amq_broker_admin_roles | join(',') }}"
   
 # Checking admin + view list
 #- name: Debug roles list
