@@ -1,3 +1,26 @@
+---
+# Deleting existing settings.
+- name: configure - journal - additional journal settings.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/journal-compact-min-files
+    state: absent
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+  
+- name: configure - journal - additional journal settings.
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: /conf:configuration/core:core/journal-compact-percentage
+    state: absent
+    namespaces: 
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+
+# Adding additional settings
 - name: configure - journal - additional journal settings.
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"

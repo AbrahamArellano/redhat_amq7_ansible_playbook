@@ -1,0 +1,14 @@
+---
+- name: Check whether AMQ instances exists
+  stat:
+    path: '{{ amq_broker_dir }}/{{ amq_broker_name }}/bin'
+  register: amq_broker_dir_stat
+  
+- name: Stop AMQ Service
+  shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service stop"
+  environment:
+    BASH_ENV: "~/.profile"
+  args:
+    executable: "/bin/bash"
+    warn: no
+  when: amq_broker_dir_stat.stat.exists
