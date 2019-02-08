@@ -13,7 +13,7 @@
 - name: configure - journal - additional journal settings.
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
-    xpath: /conf:configuration/core:core/journal-compact-percentage
+    xpath: /conf:configuration/core:core/core:journal-compact-percentage
     state: absent
     namespaces: 
       conf: urn:activemq
@@ -24,7 +24,7 @@
 - name: configure - journal - additional journal settings.
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
-    xpath: /conf:configuration/core:core/journal-compact-min-files
+    xpath: /conf:configuration/core:core/core:journal-compact-min-files
     value: "{{ journal_compact_min_files|string }}"
     namespaces: 
       conf: urn:activemq
