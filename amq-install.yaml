@@ -10,7 +10,7 @@
   gather_facts: true
   become: yes
   become_user: "{{ vault_os_amq.become_user }}"
-  become_method: su
+  become_method: sudo
   
   # Set capabilities to install
   vars:

@@ -22,4 +22,6 @@
 
 - include_tasks: configure/journal.yml
 
+- include_tasks: configure/memory.yml
+
 - include_tasks: configure/service.yml
