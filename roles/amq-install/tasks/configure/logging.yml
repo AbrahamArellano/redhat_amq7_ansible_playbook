@@ -5,6 +5,14 @@
     regexp: '^handler.FILE.fileName'
     line: "handler.FILE.fileName={{ amq_broker_log_dir }}/artemis_{{ amq_broker_name }}.log"
     backrefs: yes
+    
+# Delete the default properties
+- name: logging - changing location of logs
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/logging.properties"
+    regexp: '^handler.FILE.fileName'
+    state: absent
+    backrefs: yes
 
 # Define new logging handler
 - name: logging - console - rotating size and date
