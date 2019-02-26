@@ -10,7 +10,7 @@
 - name: logging - changing location of logs
   lineinfile:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/logging.properties"
-    regexp: '^handler.FILE.fileName'
+    regexp: '^handler.FILE.properties='
     state: absent
     backrefs: yes
 
