@@ -48,27 +48,3 @@
     owner: "{{ user['name'] }}"
     group: "{{ user['group'] }}"
   
-
-#- name: Link current version to installed version
-#  file:
-#    src: "{{ amq_base }}/{{ amq_name }}/jboss-amq-{{ amq['version'] }}.redhat-{{ amq['patch'] }}"
-#    dest: '{{ amq_home }}'
-#    state: link
-#    owner: "{{ user['name'] }}"
-#    group: "{{ user['name'] }}"
-
-#- block:
-#  - name: Start AMQ service
-#    shell: "{{ amq_home }}/bin/start"
-#    environment:
-#      BASH_ENV: "~/.bash_profile" 
-#    args:
-#      executable: "/bin/bash"
-#      warn: yes
-#    become: yes
-#    become_user: amq
-#    changed_when: true
-#    async: 60
-#    poll: 0
-
-

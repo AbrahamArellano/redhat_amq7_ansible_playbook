@@ -37,6 +37,7 @@
     file_type: directory
     patterns: '*'
   register: data_directories_to_delete
+  when: delete_data_content
   
 - name: print data find_result
   debug: var=data_directories_to_delete  
@@ -48,15 +49,16 @@
     group: "{{ user['group'] }}"
     state: absent
   with_items: "{{ data_directories_to_delete.files }}"    
-       
+  when: delete_data_content
     
 ## DELETE CONTENT LOG    
 - name: Uninstall AMQ - collecting log internal files and directories
   find: 
     paths: "{{ amq_broker_log_dir }}"
-    file_type: directory
+    file_type: file
     patterns: '*'
   register: log_directories_to_delete
+  when: delete_log_content
   
 - name: print log find_result
   debug: var=log_directories_to_delete  
@@ -68,3 +70,4 @@
     group: "{{ user['group'] }}"
     state: absent
   with_items: "{{ log_directories_to_delete.files }}"  
+  when: delete_log_content
