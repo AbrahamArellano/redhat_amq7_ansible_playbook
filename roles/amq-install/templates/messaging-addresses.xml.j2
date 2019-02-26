@@ -19,4 +19,6 @@
           <queue name="queue.out"/>
         </anycast>
       </address>
+      {% include 'messaging-addresses-queues.xml.j2' %}
+      {% include 'messaging-addresses-topics.xml.j2' %}
     </addresses>

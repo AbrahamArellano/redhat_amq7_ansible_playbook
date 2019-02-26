@@ -5,3 +5,22 @@
     regexp: '^handler.FILE.fileName'
     line: "handler.FILE.fileName={{ amq_broker_log_dir }}/artemis_{{ amq_broker_name }}.log"
     backrefs: yes
+
+# Define new logging handler
+- name: logging - console - rotating size and date
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/logging.properties"
+    regexp: '^handler.FILE='
+    line: "{{ lookup('template', 'messaging-logging-properties.j2') }}"
+    backrefs: yes
+  when: amq_broker_logging.active
+  
+# Define new logging handler
+- name: logging - console - debug
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/logging.properties"
+    regexp: '^logger.org.apache.activemq.artemis.core.server.level='
+    line: "logger.org.apache.activemq.artemis.core.server.level=DEBUG"
+    backrefs: yes
+  when: amq_broker_logging.debug
+  

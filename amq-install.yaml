@@ -6,8 +6,10 @@
   connection: local
   
   serial: 1
-  remote_user: "{{ vault_os_amq.remote_user }}"
+  remote_user: "{{ lookup('env','USER') }}"
   gather_facts: true
+  
+  # User that will install AMQ in remote machine
   become: yes
   become_user: "{{ vault_os_amq.become_user }}"
   become_method: sudo
