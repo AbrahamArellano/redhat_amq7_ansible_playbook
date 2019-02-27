@@ -1,3 +1,4 @@
 /.project
 /LICENSE
 /amq-install.retry
+/amq-uninstall.retry

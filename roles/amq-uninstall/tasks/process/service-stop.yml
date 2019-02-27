@@ -5,10 +5,7 @@
   register: amq_broker_dir_stat
   
 - name: Stop AMQ Service
-  shell: |
-     set timeout 20
-     "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service stop"
-     exit 0
+  shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service stop"
   environment:
     BASH_ENV: "~/.profile"
   args:
