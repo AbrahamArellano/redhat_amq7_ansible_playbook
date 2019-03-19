@@ -1,5 +1,31 @@
 ---
+# Delete all existing users
+- name: configure - console - access update artemis.profile
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/artemis-users.properties"
+    regexp: '^(?!##).+'
+    state: absent
+    backrefs: yes
+    
+- name: configure - console - access update artemis.profile
+  lineinfile:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/artemis-roles.properties"
+    regexp: '^(?!##).+'
+    state: absent
+    backrefs: yes
 
+# Configure the admin users
+- name: configure - users-roles - create additional messaging users
+  shell: >
+    {{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis user add
+    --user {{ item.name }}
+    --password {{ item.password }}
+    --role {{ item.role }}
+  changed_when: False
+  with_items:
+    - "{{ amq_broker_admin }}"
+
+# Configure all users listed in "amq_broker_users"
 - name: configure - users-roles - create additional messaging users
   shell: >
     {{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis user add

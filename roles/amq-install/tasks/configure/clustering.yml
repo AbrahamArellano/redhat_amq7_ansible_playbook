@@ -1,4 +1,14 @@
 ---
+- name: configure - clustering - delete all existing connectors except Artemis - back to original
+  xml:
+    path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"
+    xpath: "/conf:configuration/core:core/core:connectors/core:connector[not(@name='artemis')]"
+    state: absent
+    namespaces:
+      conf: urn:activemq
+      core: urn:activemq:core
+    pretty_print: yes
+
 - name: configure - clustering - configure default static connectors
   xml:
     path: "{{ amq_broker_dir }}/{{ amq_broker_name }}/etc/broker.xml"

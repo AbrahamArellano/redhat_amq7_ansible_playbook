@@ -11,7 +11,7 @@
 
 - block:
   - name: Start AMQ service
-    shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service start"
+    shell: "{{ amq_broker_dir }}/{{ amq_broker_name }}/bin/artemis-service restart"
     environment:
       BASH_ENV: "~/.bash_profile"
     args:
